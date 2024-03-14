@@ -1,0 +1,6 @@
+@PostsC__HostAddress = http://localhost:5017
+
+GET {{PostsC__HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
