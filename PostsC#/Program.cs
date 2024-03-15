@@ -11,11 +11,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient();
 
-var app = builder.Build();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer("Server=localhost;Database=PostsC#;User=root;Password=root;"));
+        options.UseSqlServer("Server=localhost;Database=PostsCsharp;User=root;Password=root;"));
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

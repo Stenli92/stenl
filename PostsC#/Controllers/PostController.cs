@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace PostsC_.Controllers
 {
@@ -18,17 +20,23 @@ namespace PostsC_.Controllers
         [HttpPost]
         public async Task<IActionResult> FetchAndSavePosts()
         {
-            var response = await _httpClient.GetAsync("https://jsonplaceholder.typicode.com/posts");
-            if (response.IsSuccessStatusCode)
+            string url = "https://jsonplaceholder.typicode.com/posts";
+
+            HttpClient client = new HttpClient();
+
+            string response = await client.GetStringAsync(url);
+
+
+            if (!response.IsNullOrEmpty())
             {
-                var posts = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                var posts =  JsonConvert.DeserializeObject<Post[]>(response);
                 _context.AddRange(posts);
                 await _context.SaveChangesAsync();
                 return Ok();
             }
             else
             {
-                return StatusCode((int)response.StatusCode);
+                return StatusCode(500);
             }
         }
     }
